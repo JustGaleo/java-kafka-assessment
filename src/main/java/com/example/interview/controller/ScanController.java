@@ -2,6 +2,8 @@ package com.example.interview.controller;
 
 import com.example.interview.entity.Scan;
 import com.example.interview.repository.ScanRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequestMapping(path = "/scan") // This means URL's start with /demo (after Application path)
 public class ScanController {
 
+	@Autowired
     private ScanRepository scanRepository;
 
     @GetMapping

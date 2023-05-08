@@ -21,9 +21,10 @@ public class KafkaConsumerService {
     private ScanRepository scanRepository;
 
 
-    @KafkaListener(id = "scan-listener-spring", topics = "scan_topic", groupId = "scan_group", concurrency = "1")
-    public void consumeScan(ConsumerRecord<String, String> record) {
-        System.out.println("Received message. Key: " + record.key() + ", Value: " + record.value());
+    @KafkaListener(id = "scan-listener-spring-v1", topics = "scan_topic_v1", groupId = "scan_group", concurrency = "1")
+    public void consumeScanv1(ConsumerRecord<String, String> record) {
+    	
+        System.out.println("Received message for scan_topic_v1. Key: " + record.key() + ", Value: " + record.value());
 
         ObjectMapper mapper = new ObjectMapper();
         Scan scan;
@@ -45,6 +46,7 @@ public class KafkaConsumerService {
             System.out.println("JsonProcessingException: " + e.getMessage());
         }
     }
+
 }
 
 

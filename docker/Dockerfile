@@ -2,10 +2,10 @@ FROM node:14-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY ["package.json", "package-lock.json*", "./"]
 
 RUN npm ci
 
-COPY .. .
+COPY . /app
 
 CMD ["npm", "start"]
