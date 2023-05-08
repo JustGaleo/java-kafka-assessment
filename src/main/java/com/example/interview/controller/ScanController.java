@@ -1,7 +1,7 @@
 package com.example.interview.controller;
 
 import com.example.interview.entity.Scan;
-import com.example.interview.repository.ScanRepository;
+import com.example.interview.service.ScanService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,17 +19,17 @@ import java.util.Optional;
 public class ScanController {
 
 	@Autowired
-    private ScanRepository scanRepository;
+    private ScanService scanService;
 
     @GetMapping
     public ResponseEntity<List<Scan>> getAllScans() {
-        List<Scan> scans = (List<Scan>) scanRepository.findAll();
+        List<Scan> scans = (List<Scan>) scanService.getAllScans();
         return new ResponseEntity<>(scans, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Scan> getScanById(@PathVariable("id") Long id) {
-        Optional<Scan> scan = scanRepository.findById(Math.toIntExact(id));
+        Optional<Scan> scan = scanService.getScanById(id);
         if (scan.isPresent()) {
             return new ResponseEntity<>(scan.get(), HttpStatus.OK);
         } else {
