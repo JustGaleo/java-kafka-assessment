@@ -47,8 +47,7 @@ public class ScanController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			if (request.getType().equals("scan")) {
-				List<Scan> scans = (List<Scan>) scanService.getScanByDateRange(request.getType(), request.getDate1(),
-						request.getDate2());
+				List<Scan> scans = (List<Scan>) scanService.getScanByDateRange(request);
 				return new ResponseEntity<>(scans, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.interview.entity.Scan;
+import com.example.interview.models.DateRangeRequest;
 import com.example.interview.repository.ScanRepository;
 
 @Service
@@ -30,22 +31,24 @@ public class ScanServiceImpl implements ScanService {
 	}
 
 	@Override
-	public List<Scan> getScanByDateRange(String type, String date1, String date2) {
+	public List<Scan> getScanByDateRange(DateRangeRequest request) {
 		List<Scan> scans = (List<Scan>) scanRepository.findAll();
 		List<Scan> response = null;
-		if (date1 != null && date2 != null) {
-			LocalDateTime start = LocalDateTime.parse(date1);
-			LocalDateTime end = LocalDateTime.parse(date2);
+		if (request.getStartDate() != null && request.getEndDate() != null) {
+			LocalDateTime start = LocalDateTime.parse(request.getStartDate());
+			LocalDateTime end = LocalDateTime.parse(request.getEndDate());
 			response = scans.stream().filter(e -> e.getTimestamp().isAfter(start) && e.getTimestamp().isBefore(end))
 					.toList();
 		} else {
-			if (date1 == null) {
-				LocalDateTime end = LocalDateTime.parse(date2);
+			if(request.getStartDate() == null && request.getEndDate() == null) {
+				response = scans;
+			}else if (request.getStartDate() == null) {
+				LocalDateTime end = LocalDateTime.parse(request.getEndDate());
 				response = scans.stream().filter(e -> e.getTimestamp().isBefore(end)).toList();
-			} else if (date2 == null) {
-				LocalDateTime start = LocalDateTime.parse(date1);
+			} else if (request.getEndDate() == null) {
+				LocalDateTime start = LocalDateTime.parse(request.getStartDate());
 				response = scans.stream().filter(e -> e.getTimestamp().isAfter(start)).toList();
-			}
+			} 
 		}
 		return response;
 
